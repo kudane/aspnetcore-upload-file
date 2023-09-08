@@ -1,0 +1,45 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<h1>Action Controller</h1>
+<div class="row">
+    <div class="col">
+        <h4>MVC Upload</h4>
+        <form action="@Url.Action("Upload", "Home")" method="post" enctype="multipart/form-data">
+            @Html.AntiForgeryToken()
+            <input name="Item" type="file" /><br />
+            <input name="Item" type="file" /><br />
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+    <div class="col">
+        <h4>API Upload</h4>
+        <input id="fileupload1" type="file" /><br />
+        <input id="fileupload2" type="file" /><br />
+        <button type="button" onclick="callSingleUpload()">Submit</button>
+    </div>
+</div>
+
+@section Scripts
+    {
+    <script type="text/javascript">
+        function callSingleUpload() {
+            var formData = new FormData();
+            formData.append("Item", fileupload1.files[0]);
+            formData.append("Item", fileupload2.files[0]);
+
+            $.ajax({
+                method: 'post',
+                processData: false,
+                contentType: false,
+                data: formData,
+                enctype: 'multipart/form-data',
+                url: 'api/file/upload',
+                success: function (response) {
+                    conosle.log(response);
+                }
+            });
+        }
+    </script>
+}
